@@ -37,12 +37,84 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  
+  void _showOverlay(BuildContext context) async {
+    OverlayState? overlayState = Overlay.of(context);
+    OverlayEntry overlay1;
+    final _formKey = GlobalKey<FormState>();
+    overlay1 = OverlayEntry(builder: (context) {
+      return Scaffold(
+        body: Container(
+          alignment: AlignmentDirectional.centerStart,
+          padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.1),
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.8,
+          color: Colors.green.withOpacity(0.5),
+          child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget> [
+            TextFormField(
+              decoration: const InputDecoration(
+              icon: Icon(Icons.person),
+              hintText: "Enter Event's Name",
+              labelText: "Event Name")
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+              icon: Icon(Icons.person),
+              hintText: "Description",
+              labelText: "Enter the Event's description"),
+              maxLines: 10,
+              minLines: 10,
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+              icon: Icon(Icons.person),
+              hintText: "Location",
+              labelText: "Enter the Event's address")
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+              icon: Icon(Icons.person),
+              hintText: "Date",
+              labelText: "mm/dd/yyyy")
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+              icon: Icon(Icons.person),
+              hintText: "Time",
+              labelText: "Enter the Event's time")
+            ),
+            Row(children: [
+              ElevatedButton(
+              onPressed: () {print("Cancel");},
+              child: const Text('Cancel')
+            ),
+            ElevatedButton(
+              
+              onPressed: () {print("Submitted");},
+              child: const Text('Submit')
+            )],)
+            
+            ],
+          ),
+        )
+      ));
+    });
+    overlayState?.insert(overlay1);
+    // overlay1.remove();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
+            _showOverlay(context);
         },
         ),
       body: const HomePageMap(),
@@ -115,8 +187,6 @@ class PositionMethods {
     return true;
   }
 }
-
-
 
 
 
