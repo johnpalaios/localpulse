@@ -38,76 +38,81 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
   void _showOverlay(BuildContext context) async {
     OverlayState? overlayState = Overlay.of(context);
     OverlayEntry overlay1;
     final _formKey = GlobalKey<FormState>();
     overlay1 = OverlayEntry(builder: (context) {
       return Scaffold(
-        body: Container(
-          alignment: AlignmentDirectional.centerStart,
-          padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.1),
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: MediaQuery.of(context).size.height * 0.8,
-          color: Colors.green.withOpacity(0.5),
-          child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget> [
-            TextFormField(
-              decoration: const InputDecoration(
-              icon: Icon(Icons.person),
-              hintText: "Enter Event's Name",
-              labelText: "Event Name")
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-              icon: Icon(Icons.person),
-              hintText: "Description",
-              labelText: "Enter the Event's description"),
-              maxLines: 10,
-              minLines: 10,
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-              icon: Icon(Icons.person),
-              hintText: "Location",
-              labelText: "Enter the Event's address")
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-              icon: Icon(Icons.person),
-              hintText: "Date",
-              labelText: "mm/dd/yyyy")
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-              icon: Icon(Icons.person),
-              hintText: "Time",
-              labelText: "Enter the Event's time")
-            ),
-            Row(children: [
-              ElevatedButton(
-              onPressed: () {print("Cancel");},
-              child: const Text('Cancel')
-            ),
-            ElevatedButton(
-              
-              onPressed: () {print("Submitted");},
-              child: const Text('Submit')
-            )],)
-            
-            ],
-          ),
-        )
-      ));
+          body: Container(
+              alignment: AlignmentDirectional.centerStart,
+              padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.1),
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.8,
+              color: Colors.green.withOpacity(0.5),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    TextFormField(
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.person),
+                            hintText: "Enter Event's Name",
+                            labelText: "Event Name")),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                          icon: Icon(Icons.person),
+                          hintText: "Description",
+                          labelText: "Enter the Event's description"),
+                      maxLines: 10,
+                      minLines: 10,
+                    ),
+                    TextFormField(
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.person),
+                            hintText: "Location",
+                            labelText: "Enter the Event's address")),
+                    TextFormField(
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.person),
+                            hintText: "Date",
+                            labelText: "mm/dd/yyyy")),
+                    TextFormField(
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.person),
+                            hintText: "Time",
+                            labelText: "Enter the Event's time")),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                            alignment: AlignmentDirectional.centerEnd,
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            margin: const EdgeInsets.all(50),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  print("Cancelled");
+                                },
+                                child: const Text('Cancel'))),
+                        Container(
+                            alignment: AlignmentDirectional.bottomEnd,
+                            margin: const EdgeInsets.all(40),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  print("Submitted");
+                                  
+                                },
+                                child: const Text('Submit')))
+                      ],
+                    )
+                  ],
+                ),
+              )));
     });
     overlayState?.insert(overlay1);
     // overlay1.remove();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -115,9 +120,9 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-            _showOverlay(context);
+          _showOverlay(context);
         },
-        ),
+      ),
       body: const HomePageMap(),
     );
   }
@@ -131,42 +136,44 @@ class HomePageMap extends StatefulWidget {
 }
 
 class _HomePageMapState extends State<HomePageMap> {
-
-  @override 
+  @override
   void initState() {
     super.initState();
-    PositionMethods._getCurrentPosition().then((_) => _mapController.move(centerLatLng, 12));
+    PositionMethods._getCurrentPosition()
+        .then((_) => _mapController.move(centerLatLng, 12));
   }
+
   @override
   Widget build(BuildContext context) {
     return FlutterMap(
-      options: MapOptions(
-        center: LatLng(centerLatLng.latitude, centerLatLng.longitude),
-        zoom: 9.2,
-      ),
-      mapController: _mapController,
-      children: [
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.localpulse.app',
+        options: MapOptions(
+          center: LatLng(centerLatLng.latitude, centerLatLng.longitude),
+          zoom: 9.2,
         ),
-      ]
-    );
+        mapController: _mapController,
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'com.localpulse.app',
+          ),
+        ]);
   }
 }
 
 class PositionMethods {
-    static Future<void> _getCurrentPosition() async {
+  static Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
 
     if (hasPermission == false) return;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation)
+    await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.bestForNavigation)
         .then((Position position) {
       centerLatLng = LatLng(position.latitude, position.longitude);
     }).catchError((e) {
       debugPrint(e);
     });
   }
+
   static Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -183,11 +190,8 @@ class PositionMethods {
       }
     }
     if (permission == LocationPermission.deniedForever) {
-        return false;
+      return false;
     }
     return true;
   }
 }
-
-
-
