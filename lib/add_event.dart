@@ -1,4 +1,4 @@
-//Εδώ θα υλοποιήσουμε την επόμενη Βασική εικόνα
+/*Εδώ θα υλοποιήσουμε την επόμενη Βασική εικόνα
 
 import 'package:flutter/material.dart';
 
@@ -18,4 +18,4 @@ class _AddEditEventWidgetState extends State<AddEditEventWidget>{
   
     );
   }
-}
+}*/
