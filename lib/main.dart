@@ -6,10 +6,12 @@ import 'package:flutter_map/flutter_map.dart'; // Suitable for most situations
 import 'package:flutter_map/plugin_api.dart'; // Only import if required functionality is not exposed by default
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
+//import 'package:localpulse/add_event.dart';
+import 'package:localpulse/edit_profile.dart';
+
 
 MapController _mapController = MapController();
 LatLng centerLatLng = LatLng(36.7525, 3.04);
-//import 'package:localpulse/add_event.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -172,14 +174,23 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: ((context) => <PopupMenuEntry<int>>[
               const PopupMenuItem(
                 child: ListTile(
+                  //tileColor: Color.fromARGB(255, 12, 73, 95),
                   //selectedColor: Color.fromARGB(221, 114, 151, 164) ,
                   title: Text('Events'),
                 )),
-                const PopupMenuItem(
-                child: ListTile(
-                  //selectedColor: Color.fromARGB(221, 114, 151, 164) ,
-                  title: Text('Edit Profile'),
-                )),
+                PopupMenuItem( 
+                  child: const ListTile(
+                    //selectedColor: Color.fromARGB(221, 114, 151, 164) ,
+                    title: Text('Edit Profile'),
+                  ),
+                  onTap :() async {
+                    final navigator = Navigator.of(context);
+                    await Future.delayed(Duration.zero);
+                    navigator.push(
+                       MaterialPageRoute(builder: (_) => EditProfileWidget()),
+                    );
+                  },
+                ),
                 const PopupMenuItem(
                 child: ListTile(
                   //selectedColor: Color.fromARGB(221, 114, 151, 164) ,
@@ -334,7 +345,9 @@ class _HomePageState extends State<HomePage> {
                                             ]
                                           )
                                         ),
-                                        child: const Center(child: Text("Submit", style: TextStyle(color:Color.fromARGB(200, 255, 255, 255), fontSize: 20, fontWeight: FontWeight.w800),)),
+                                        child: const Center(
+                                          child: Text("Submit", style: TextStyle(color:Color.fromARGB(200, 255, 255, 255), fontSize: 20, fontWeight: FontWeight.w800),),
+                                        ),
                                       ),
                                       onPressed: () {
                                   /*if (_formKey.currentState.validate()) {
