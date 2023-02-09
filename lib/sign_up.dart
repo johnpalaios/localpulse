@@ -1,45 +1,16 @@
 import 'package:localpulse/components.dart';
 import 'package:localpulse/homepage.dart';
 import 'package:flutter/material.dart';
-import 'package:localpulse/sign_up.dart';
-//import 'package:localpulse/edit_profile.dart';
 
 
-void main() async {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+class SignUpWidget extends StatefulWidget{
+  const SignUpWidget({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Local Pulse',
-        theme: ThemeData(
-          //primarySwatch: Colors.whit
-        ),
-        /*initialRoute: '/',
-        routes: {
-          '/':(context) => const SignInWidget(),
-          '/editprofile':(context) => const EditProfileWidget(),
-          '/homepage': (context) => const HomePage()
-        },
-        */        home: const SignInWidget(),//HomePage(),
-        debugShowCheckedModeBanner: false);
-  }
+  State <SignUpWidget> createState() => _SignUpWidgetState(); 
+  
 }
 
-
-
-class SignInWidget extends StatefulWidget{
-  const SignInWidget({Key? key}) : super(key: key);
-  @override
-  State <SignInWidget> createState() => _SignInWidgetState(); 
-  //_SignInWidgetState createState() =>  _SignInWidgetState();
-}
-
-class _SignInWidgetState extends State<SignInWidget>{
+class _SignUpWidgetState extends State<SignUpWidget>{
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context){
@@ -50,7 +21,7 @@ class _SignInWidgetState extends State<SignInWidget>{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           const  Logo(),
+            const Logo(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,14 +29,14 @@ class _SignInWidgetState extends State<SignInWidget>{
                 Container(
                   alignment: const Alignment(30,0),
                   height: 120,
-                  width: 150,
+                  width: 180,
                   decoration: const BoxDecoration(
                     color:  Color.fromARGB(255, 12, 73, 95),                     
                   ),
                   child: const Center(
                     child: Text(
                       textAlign: TextAlign.center,
-                      "Sign In",
+                      "Sign Up",
                       style: TextStyle(
                         fontFamily: 'ChauPhilomeneOne',
                         letterSpacing: 5.0,
@@ -91,7 +62,7 @@ class _SignInWidgetState extends State<SignInWidget>{
                   child: const Center(
                     child: Text(
                       textAlign: TextAlign.center,
-                      "Sign in and descover local events!",
+                      "Sign up and descover local events!",
                       style: TextStyle(
                         letterSpacing: 1.0,
                         color: Color.fromARGB(200, 255, 255, 255),
@@ -120,11 +91,26 @@ class _SignInWidgetState extends State<SignInWidget>{
                       maxLines: 1,
                       decoration:  const InputDecoration(
                         fillColor: Colors.white70,
-                        icon: Icon(Icons.email, size: 25,color:Colors.white54),
+                        icon: Icon(Icons.person_2, size: 25,color:Colors.white54),
                         contentPadding: EdgeInsets.only(left:10),
+                        hintText: "Tom Brown",
+                        labelText: "Full Name",
+                        labelStyle: TextStyle(color:Colors.white70, fontSize: 12, fontWeight: FontWeight.w500 ),
+                        hintStyle: TextStyle(color:Colors.white38, fontSize: 18, fontWeight: FontWeight.w500 )
+                       )
+                    ),
+                    TextFormField(
+                      style: const TextStyle(color: Colors.white70),
+                      keyboardType: TextInputType.multiline,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.email, size: 25, color: Colors.white70),
+                        contentPadding: EdgeInsets.only(left:10),
+                        hintText: "tombrown@gmail.com",
+                        hintStyle: TextStyle(color:Colors.white38, fontSize: 18, fontWeight: FontWeight.w500 ),
                         labelText: "Email",
                         labelStyle: TextStyle(color:Colors.white70, fontSize: 12, fontWeight: FontWeight.w500 ),
-                      )
+                      ),
+                      maxLines: 1,
                     ),
                     TextFormField(
                       obscureText: true,
@@ -139,48 +125,18 @@ class _SignInWidgetState extends State<SignInWidget>{
                       ),
                       maxLines: 1,
                     ),
-                    Row(
-                      children: [
-                        const Padding( //Checkbox
-                          padding: EdgeInsets.fromLTRB( 0.0,  20.0, 0.0, 20.0), //, top: 20.0, bottom: 20,0),
-                          child: TikBox(),
-                        ),
-                        const Padding(//Remember me 
-                          padding:  EdgeInsets.only(right: 10.0),
-                          child: SizedBox( //Container(
-                            //width:MediaQuery.of(context).size.width,
-                            height: 30,            
-                            child:  Center(
-                              child: Text(
-                                "Remember me", 
-                                style: TextStyle(
-                                  color:Color.fromARGB(200, 255, 255, 255), 
-                                  fontSize: 13, 
-                                  fontWeight: FontWeight.w500
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(120.0, 20.0, 0.0, 20.0),
-                            child: TextButton(
-                              child: const Center(
-                                child:  Text(
-                                  "Forgot Password?", 
-                                  style: TextStyle(
-                                    color:Color.fromARGB(200, 255, 255, 255), 
-                                    fontSize: 13, 
-                                    fontWeight: FontWeight.w500
-                                  ),
-                                )
-                              ),
-                              onPressed: () {},
-                              ),
-                            )
-                          )
-                      ]
+                    TextFormField(
+                      obscureText: true,
+                      obscuringCharacter: '*',
+                      style: const TextStyle(color: Colors.white70),
+                      keyboardType: TextInputType.multiline,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.key, size: 25, color: Colors.white70),
+                        contentPadding: EdgeInsets.only(left:10),
+                        labelText: "Confirm Password",
+                        labelStyle: TextStyle(color:Colors.white70, fontSize: 12, fontWeight: FontWeight.w500 ),
+                      ),
+                      maxLines: 1,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(20),
@@ -202,12 +158,13 @@ class _SignInWidgetState extends State<SignInWidget>{
                               ]
                             )
                           ),
-                          child: const Center(child: Text("Sign In", style: TextStyle(color:Color.fromARGB(200, 255, 255, 255), fontSize: 20, fontWeight: FontWeight.w800),)),
+                          child: const Center(child: Text("Sign Up", style: TextStyle(color:Color.fromARGB(200, 255, 255, 255), fontSize: 20, fontWeight: FontWeight.w800),)),
                         ),
                         onPressed: ()async{
                           final navigator = Navigator.of(context);
                           await Future.delayed(Duration.zero);
-//save ta stoixeia eisodou  
+//save ta stoixeia eisodou 
+                          navigator.pop(); 
                           navigator.push(
                             MaterialPageRoute(builder: (_) => const HomePage()),
                           );
@@ -242,29 +199,21 @@ class _SignInWidgetState extends State<SignInWidget>{
                                   ]
                                 )
                               ),
-                              child: const Center(child: Text("Sign Up", style: TextStyle(color:Color.fromARGB(200, 255, 255, 255), fontSize: 20, fontWeight: FontWeight.w800),)),
+                              child: const Center(child: Text("Cancel", style: TextStyle(color:Color.fromARGB(200, 255, 255, 255), fontSize: 20, fontWeight: FontWeight.w800),)),
                         ),
-                        onPressed: ()async{
-                          final navigator = Navigator.of(context);
-                          await Future.delayed(Duration.zero);
-//save ta stoixeia eisodou  
-                          navigator.push(
-                            MaterialPageRoute(builder: (_) => const SignUpWidget()),
-                          );
-                          //Navigator.of(context).pushNamed('/homepage');
+                        onPressed: () {
+                          Navigator.of(context).pop();
                         }
                       ),
                     ),
-                    
-                  ]
-                ),
-                
-              
+                  ],
                 ),
               ),
-          ]
-        ),
-      )    
-    );  
+            ),
+            
+          ],
+        )
+      )
+    );
   }
 }
