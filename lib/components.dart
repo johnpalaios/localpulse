@@ -159,7 +159,13 @@ class _AutoModeState extends State<AutoMode> {
 
 class AddEvent extends StatelessWidget {
   AddEvent({super.key});
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>(); 
+  TextEditingController nameFormController = TextEditingController();
+  TextEditingController descriptionFormController = TextEditingController();
+  TextEditingController addressFormController = TextEditingController();
+  TextEditingController dateFormController = TextEditingController();
+  TextEditingController timeFormController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
@@ -187,6 +193,7 @@ class AddEvent extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             TextFormField(
+                              controller: nameFormController,
                               style: const TextStyle(color: Colors.white70),
                               keyboardType: TextInputType.multiline,
                               maxLines: 2,
@@ -202,6 +209,7 @@ class AddEvent extends StatelessWidget {
                               )
                               ),
                             TextFormField(
+                              controller: descriptionFormController,
                               style: const TextStyle(color: Colors.white70),
                               keyboardType: TextInputType.multiline,
                               decoration: const InputDecoration(
@@ -216,6 +224,7 @@ class AddEvent extends StatelessWidget {
                               minLines: 5,
                             ),
                             TextFormField(
+                              controller: addressFormController,
                               style: const TextStyle(color: Colors.white70),
                               keyboardType: TextInputType.multiline,
                               maxLines: 2,
@@ -228,23 +237,50 @@ class AddEvent extends StatelessWidget {
                                 labelText: "Enter the Event's address",
                                 labelStyle: TextStyle(color:Colors.white38, fontSize: 12, fontWeight: FontWeight.w500 ))),
                             TextFormField(
+                              controller: dateFormController,
                               style: const TextStyle(color: Colors.white70),
                               keyboardType: TextInputType.multiline,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.date_range, size: 25, color: Colors.white70),
-                                contentPadding: EdgeInsets.only(left:10),
-                                hintStyle: TextStyle(color:Colors.white70, fontSize: 18, fontWeight: FontWeight.w500 ),
+                              decoration:  InputDecoration(
+                                icon: IconButton(
+                                  onPressed: () async {
+                                    DateTime? pickedDate = await showDatePicker(
+                                        context: context, initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(), //DateTime.now() - not to allow to choose before today.
+                                        lastDate: DateTime(2101)
+                                    );
+                                    if(pickedDate != null) {
+                                      dateFormController.text = pickedDate.toString();
+                                      print(pickedDate);           
+                                    }
+                                  },
+                                  icon: const Icon(Icons.date_range, size: 25, color: Colors.white70)
+                                ),
+                                contentPadding: const EdgeInsets.only(left:10),
+                                hintStyle: const TextStyle(color:Colors.white70, fontSize: 18, fontWeight: FontWeight.w500 ),
                                 hintText: "Date",
-                                labelStyle: TextStyle(color:Colors.white38, fontSize: 12, fontWeight: FontWeight.w500 ),
+                                labelStyle: const TextStyle(color:Colors.white38, fontSize: 12, fontWeight: FontWeight.w500 ),
                                 labelText: "mm/dd/yyyy")),
                             TextFormField(
+                              controller: timeFormController,
                               style: const TextStyle(color: Colors.white70),
                               keyboardType: TextInputType.multiline,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.alarm, size: 25, color: Colors.white70),
-                                contentPadding: EdgeInsets.only(left:10),
-                                labelStyle: TextStyle(color:Colors.white38, fontSize: 12, fontWeight: FontWeight.w500 ),
-                                hintStyle: TextStyle(color:Colors.white70, fontSize: 18, fontWeight: FontWeight.w500 ),
+                              decoration:   InputDecoration(
+                               icon: IconButton(
+                                  onPressed: () async {
+                                    TimeOfDay? pickedTime =  await showTimePicker(
+                                        initialTime: TimeOfDay.now(),
+                                        context: context,
+                                    );
+                                    if(pickedTime != null) {
+                                      timeFormController.text = pickedTime.toString();
+                                      print(pickedTime);
+                                    }
+                                  },
+                                  icon: const Icon(Icons.alarm, size: 25, color: Colors.white70),
+                                ),
+                                contentPadding: const EdgeInsets.only(left:10),
+                                labelStyle: const TextStyle(color:Colors.white38, fontSize: 12, fontWeight: FontWeight.w500 ),
+                                hintStyle: const TextStyle(color:Colors.white70, fontSize: 18, fontWeight: FontWeight.w500 ),
                                 hintText: "Time",
                                 labelText: "Enter the Event's time")),
                             Row(
@@ -307,9 +343,16 @@ class AddEvent extends StatelessWidget {
                                         ),
                                       ),
                                       onPressed: () {
-                                  /*if (_formKey.currentState.validate()) {
-                                    _formKey.currentState.save();
-                                  }*/
+                                        print(nameFormController.text);
+                                        print(descriptionFormController.text);
+                                        print(addressFormController.text);
+                                        print(dateFormController.text);
+                                        print(timeFormController.text);
+
+                                        // do checks if fields not null & valid 
+
+                                        // add the event to the 'EventList'
+                                        // and load the map with the new event
                                       },
                                     ),
                                   )
