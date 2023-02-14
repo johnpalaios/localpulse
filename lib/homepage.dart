@@ -103,7 +103,25 @@ class _HomePageState extends State<HomePage> {
             //onSelected: (){},
           )
         ),
-      floatingActionButton: AddEvent(),
+      floatingActionButton: //AddEvent(),
+        FloatingActionButton(
+        tooltip: 'Add event',
+        backgroundColor: const  Color.fromARGB(255, 3, 7, 30),
+        child: const Icon(Icons.add),
+        onPressed: () {
+          showDialog(
+              barrierColor: const Color.fromARGB(93, 0, 0, 0),
+              context: context,
+               builder: (BuildContext context) {
+                   //_showOverlay(context);
+                   return  AlertDialog(
+                    contentPadding: EdgeInsets.zero,
+                    content:AddEvent()//AddEvent()
+                  );  
+               }
+          );
+        }
+      ),
       
       body: const HomePageMap(),
     );

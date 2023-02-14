@@ -17,15 +17,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Local Pulse',
         theme: ThemeData(
+          colorSchemeSeed: const Color.fromARGB(255, 12, 73, 95),
+          appBarTheme: const AppBarTheme(
+            backgroundColor:   Color.fromARGB(255, 12, 73, 95),
+            foregroundColor:  Color.fromARGB(255, 18, 117, 153),
+          )
           //primarySwatch: Colors.whit
         ),
-        /*initialRoute: '/',
-        routes: {
-          '/':(context) => const SignInWidget(),
-          '/editprofile':(context) => const EditProfileWidget(),
-          '/homepage': (context) => const HomePage()
-        },
-        */        home: const SignInWidget(),//HomePage(),
+        home: const SignInWidget(),//HomePage(),
         debugShowCheckedModeBanner: false);
   }
 }
@@ -46,7 +45,7 @@ class _SignInWidgetState extends State<SignInWidget>{
     return Scaffold(
       extendBody: true,
       body: Container(
-        color: const Color.fromARGB(255, 12, 73, 95),
+        color: const  Color.fromARGB(255, 12, 73, 95),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -268,3 +267,9 @@ class _SignInWidgetState extends State<SignInWidget>{
     );  
   }
 }
+
+
+
+
+
+

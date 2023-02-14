@@ -91,6 +91,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>{
                   height: 120,
                   width: 150,
                   decoration: const BoxDecoration(
+
                     color:  Color.fromARGB(255, 12, 73, 95),  
                   ),
                   child: const Center(
@@ -125,9 +126,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget>{
                       keyboardType: TextInputType.multiline,
                       maxLines: 1,
                       decoration:  const InputDecoration(
+                       // border: OutlineInputBorder(borderSide: BorderSide()),
                         fillColor: Colors.white70,
                         icon: Icon(Icons.person_2, size: 25,color:Colors.white54),
-                        contentPadding: EdgeInsets.only(left:10),
+                        contentPadding: EdgeInsets.only(left:10, bottom: 10.0),
                         hintText: "Tom Brown",
                         labelText: "Full Name",
                         labelStyle: TextStyle(color:Colors.white70, fontSize: 12, fontWeight: FontWeight.w500 ),
@@ -138,6 +140,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget>{
                       style: const TextStyle(color: Colors.white70),
                       keyboardType: TextInputType.multiline,
                       decoration: const InputDecoration(
+                        //border: OutlineInputBorder(borderSide: BorderSide()),
                         icon: Icon(Icons.email, size: 25, color: Colors.white70),
                         contentPadding: EdgeInsets.only(left:10),
                         hintText: "tombrown@gmail.com",
