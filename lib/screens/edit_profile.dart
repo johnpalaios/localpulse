@@ -1,7 +1,7 @@
-import 'package:localpulse/components.dart';
+import 'package:localpulse/screens/components.dart';
 import 'package:flutter/material.dart';
-import 'package:localpulse/my_events.dart';
-import 'package:localpulse/settings.dart';
+import 'package:localpulse/screens/my_events.dart';
+import 'package:localpulse/screens/settings.dart';
 //import 'package:localpulse/main.dart';
 
 class EditProfileWidget extends StatefulWidget{

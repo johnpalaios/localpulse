@@ -1,5 +1,5 @@
-import 'package:localpulse/components.dart';
-import 'package:localpulse/homepage.dart';
+import 'package:localpulse/screens/components.dart';
+import 'package:localpulse/screens/homepage.dart';
 import 'package:flutter/material.dart';
 
 

@@ -6,14 +6,18 @@ import 'package:flutter_map/flutter_map.dart'; // Suitable for most situations
 import 'package:flutter_map/plugin_api.dart'; // Only import if required functionality is not exposed by default
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:localpulse/components.dart';
-import 'package:localpulse/edit_profile.dart';
-import 'package:localpulse/settings.dart';
-import 'package:localpulse/my_events.dart';
+import 'package:localpulse/screens/components.dart';
+import 'package:localpulse/screens/edit_profile.dart';
+import 'package:localpulse/screens/settings.dart';
+import 'package:localpulse/screens/my_events.dart';
+import 'package:localpulse/models/event.dart';
+import 'package:localpulse/services/random_methods.dart';
+import 'package:localpulse/services/sqlite_service.dart';
+
 
 
 MapController _mapController = MapController();
-LatLng centerLatLng = LatLng(36.7525, 3.04);
+LatLng centerLatLng = LatLng(37.983810,  23.727539);
 
 
 class HomePage extends StatefulWidget {
@@ -28,6 +32,8 @@ class _HomePageState extends State<HomePage> {
  // final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    
+    // SqliteService.initializeDB().then(((value) => SqliteService.deleteTables(value)));
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -118,12 +124,16 @@ class HomePageMap extends StatefulWidget {
 }
 
 class _HomePageMapState extends State<HomePageMap> {
+  final markers = <Marker>[];
   @override
   void initState() {
     super.initState();
+    addMarkers(markers);
     PositionMethods._getCurrentPosition()
         .then((_) => _mapController.move(centerLatLng, 12));
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +147,11 @@ class _HomePageMapState extends State<HomePageMap> {
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             userAgentPackageName: 'com.localpulse.app',
+
           ),
+          MarkerLayer(
+                    markers: markers,
+                  )
         ]);
   }
 }

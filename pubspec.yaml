@@ -32,10 +32,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sqflite:
   flutter_map: ^3.1.0
   latlong2: ^0.8.1
   geolocator: ^8.2.0
-  geocoding: ^2.0.4
+  geocoding: ^2.0.5
+  location_geocoder: ^1.0.5
+  flutter_geocoder: ^0.2.2-nullsafety
+
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -44,6 +49,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sqflite_common_ffi:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

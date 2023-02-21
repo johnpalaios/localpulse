@@ -1,11 +1,15 @@
-import 'package:localpulse/components.dart';
-import 'package:localpulse/homepage.dart';
+import 'package:flutter/services.dart';
+import 'package:localpulse/screens/components.dart';
+import 'package:localpulse/screens/homepage.dart';
 import 'package:flutter/material.dart';
-import 'package:localpulse/sign_up.dart';
+import 'package:localpulse/screens/sign_up.dart';
 //import 'package:localpulse/edit_profile.dart';
+import 'package:flutter_geocoder/geocoder.dart';
+
 
 
 void main() async {
+  
   runApp(const MyApp());
 }
 
@@ -14,6 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
         title: 'Local Pulse',
         theme: ThemeData(
@@ -140,13 +145,13 @@ class _SignInWidgetState extends State<SignInWidget>{
                       maxLines: 1,
                     ),
                     Row(
-                      children: [
-                        const Padding( //Checkbox
-                          padding: EdgeInsets.fromLTRB( 0.0,  20.0, 0.0, 20.0), //, top: 20.0, bottom: 20,0),
+                      children: const [
+                        Padding( //Checkbox
+                          padding: EdgeInsets.fromLTRB( 0.0,  5.0, 0.0, 5.0), //, top: 20.0, bottom: 20,0),
                           child: TikBox(),
                         ),
-                        const Padding(//Remember me 
-                          padding:  EdgeInsets.only(right: 10.0),
+                        Padding(//Remember me 
+                          padding:  EdgeInsets.only(right: 00.0),
                           child: SizedBox( //Container(
                             //width:MediaQuery.of(context).size.width,
                             height: 30,            
@@ -161,13 +166,16 @@ class _SignInWidgetState extends State<SignInWidget>{
                               ),
                             ),
                           ),
-                        ),
-                        Expanded(
+                        )
+                      ]
+                    ),
+                         Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(120.0, 20.0, 0.0, 20.0),
+                            padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
                             child: TextButton(
                               child: const Center(
-                                child:  Text(
+                                child: Text(
                                   "Forgot Password?", 
                                   style: TextStyle(
                                     color:Color.fromARGB(200, 255, 255, 255), 
@@ -179,9 +187,7 @@ class _SignInWidgetState extends State<SignInWidget>{
                               onPressed: () {},
                               ),
                             )
-                          )
-                      ]
-                    ),
+                          ),
                     Padding(
                       padding: const EdgeInsets.all(20),
 
@@ -207,7 +213,7 @@ class _SignInWidgetState extends State<SignInWidget>{
                         onPressed: ()async{
                           final navigator = Navigator.of(context);
                           await Future.delayed(Duration.zero);
-//save ta stoixeia eisodou  
+                          //save ta stoixeia eisodou  
                           navigator.push(
                             MaterialPageRoute(builder: (_) => const HomePage()),
                           );
@@ -247,7 +253,7 @@ class _SignInWidgetState extends State<SignInWidget>{
                         onPressed: ()async{
                           final navigator = Navigator.of(context);
                           await Future.delayed(Duration.zero);
-//save ta stoixeia eisodou  
+                          //save ta stoixeia eisodou  
                           navigator.push(
                             MaterialPageRoute(builder: (_) => const SignUpWidget()),
                           );

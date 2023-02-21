@@ -4,5 +4,6 @@
 
         "configurations": [],
         "compounds": []
-    }
+    },
+    "cmake.configureOnOpen": true
 }

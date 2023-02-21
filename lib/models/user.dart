@@ -1,0 +1,25 @@
+class User {
+  
+  String email;
+  String password;
+  String fullName;
+
+  User({
+      required this.email,
+      required this.password,
+      required this.fullName
+   });
+
+   Map<String, dynamic> toMap() {
+    return {
+      'email': email,
+      'password': password,
+      'fullName': fullName
+    };
+  }
+
+  @override
+  String toString() {
+    return 'User{name: $email, description: $password, latLng: $fullName}';
+  }
+}
