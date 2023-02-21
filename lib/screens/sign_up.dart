@@ -15,6 +15,7 @@ class _SignUpWidgetState extends State<SignUpWidget>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBody: true,
       body: Container(
         color: const Color.fromARGB(255, 12, 73, 95),

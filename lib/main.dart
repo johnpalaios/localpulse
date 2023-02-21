@@ -49,6 +49,7 @@ class _SignInWidgetState extends State<SignInWidget>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBody: true,
       body: Container(
         color: const Color.fromARGB(255, 12, 73, 95),
@@ -113,7 +114,8 @@ class _SignInWidgetState extends State<SignInWidget>{
                 left: MediaQuery.of(context).size.height * 0.1,
                 right: MediaQuery.of(context).size.height * 0.1
                 ),
-              child: Form(
+              child: SingleChildScrollView (
+                child: Form(
                 key: _formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -266,7 +268,7 @@ class _SignInWidgetState extends State<SignInWidget>{
                 ),
                 
               
-                ),
+                )),
               ),
           ]
         ),
