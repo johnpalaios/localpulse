@@ -17,9 +17,11 @@ class User {
       'fullName': fullName
     };
   }
-
+  User.fromMap(Map<String, dynamic> item): 
+      email=item["email"], password= item["password"],
+      fullName=item["fullName"];
   @override
   String toString() {
-    return 'User{name: $email, description: $password, latLng: $fullName}';
+    return 'User{email: $email, password: $password, fullName: $fullName}';
   }
 }

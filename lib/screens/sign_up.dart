@@ -1,7 +1,9 @@
 import 'package:localpulse/screens/components.dart';
 import 'package:localpulse/screens/homepage.dart';
 import 'package:flutter/material.dart';
-
+import 'package:localpulse/models/user.dart';
+import 'package:localpulse/services/random_methods.dart';
+import 'package:localpulse/services/sqlite_service.dart';
 
 class SignUpWidget extends StatefulWidget{
   const SignUpWidget({Key? key}) : super(key: key);
@@ -12,6 +14,11 @@ class SignUpWidget extends StatefulWidget{
 
 class _SignUpWidgetState extends State<SignUpWidget>{
   final _formKey = GlobalKey<FormState>();
+  TextEditingController fullNameFormController = TextEditingController();
+  TextEditingController emailFormController = TextEditingController();
+  TextEditingController passwordFormController = TextEditingController();
+  TextEditingController passwordConfirmFormController = TextEditingController();
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -87,6 +94,13 @@ class _SignUpWidgetState extends State<SignUpWidget>{
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     TextFormField(
+                      controller: fullNameFormController,
+                      validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your Full Name';
+                                  }
+                                  return null;
+                                },
                       style: const TextStyle(color: Colors.white70),
                       keyboardType: TextInputType.multiline,
                       maxLines: 1,
@@ -101,6 +115,21 @@ class _SignUpWidgetState extends State<SignUpWidget>{
                        )
                     ),
                     TextFormField(
+                      controller: emailFormController,
+                      validator: (value) {
+                                  
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter a valid email';
+                                  } else {
+                                    final bool emailValid = 
+                                    RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                      .hasMatch(value);
+                                    if(!emailValid) {
+                                      return 'Please enter a valid email';
+                                    }
+                                  }
+                                  return null;
+                                },
                       style: const TextStyle(color: Colors.white70),
                       keyboardType: TextInputType.multiline,
                       decoration: const InputDecoration(
@@ -114,6 +143,20 @@ class _SignUpWidgetState extends State<SignUpWidget>{
                       maxLines: 1,
                     ),
                     TextFormField(
+                      controller: passwordFormController,
+                      validator : (value) {
+                        RegExp regex =
+                            RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+                        if (value == null) {
+                          return 'Please enter password';
+                        } else {
+                          if (!regex.hasMatch(value)) {
+                            return 'Enter valid password. It must contain at least one Lowercase and Uppercase Character and 1 digit.';
+                          } else {
+                            return null;
+                          }
+                        }
+                      },
                       obscureText: true,
                       obscuringCharacter: '*',
                       style: const TextStyle(color: Colors.white70),
@@ -127,6 +170,23 @@ class _SignUpWidgetState extends State<SignUpWidget>{
                       maxLines: 1,
                     ),
                     TextFormField(
+                      controller: passwordConfirmFormController,
+                      validator : (value) {
+                        RegExp regex =
+                            RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+                        if (value == null) {
+                          return 'Please enter password';
+                        } else {
+                          if (!regex.hasMatch(value)) {
+                            return 'Password Must contain Digit, Lowercase and Uppercase.';
+                          } else {
+                            if(value != passwordFormController.text) {
+                              return 'Passwords does not match.';
+                            }
+                            return null;
+                          }
+                        }
+                      },
                       obscureText: true,
                       obscuringCharacter: '*',
                       style: const TextStyle(color: Colors.white70),
@@ -162,13 +222,34 @@ class _SignUpWidgetState extends State<SignUpWidget>{
                           child: const Center(child: Text("Sign Up", style: TextStyle(color:Color.fromARGB(200, 255, 255, 255), fontSize: 20, fontWeight: FontWeight.w800),)),
                         ),
                         onPressed: ()async{
-                          final navigator = Navigator.of(context);
-                          await Future.delayed(Duration.zero);
-//save ta stoixeia eisodou 
-                          navigator.pop(); 
-                          navigator.push(
-                            MaterialPageRoute(builder: (_) => const HomePage()),
-                          );
+                          if (_formKey.currentState!.validate()) { 
+                            print("Gets into here!");
+                            try {
+                              var newUser = User(
+                                fullName: fullNameFormController.text,
+                                password: passwordFormController.text,
+                                email: emailFormController.text
+                              );
+                              var db = await SqliteService.initializeDB();
+                              await SqliteService.insertUser(newUser, context);
+                              print("inserted into the db");
+                              var userList = await SqliteService.getUsers(db);
+                              print(userList);
+                              showEventCreationDialog(context);
+                              final navigator = Navigator.of(context);
+                              await Future.delayed(Duration.zero);
+                              //save ta stoixeia eisodou 
+                              navigator.pop(); 
+                              navigator.push(
+                                MaterialPageRoute(builder: (_) => const HomePage()),
+                              );
+                            } catch(_) {
+                              showDialogWithText(context, "There was a problem with the Sign Up", "Check your input");
+                            }
+                            
+                          } else {
+                            showDialogWithText(context, "There was a problem with the Sign Up", "Check your input");
+                          }
                           //Navigator.of(context).pushNamed('/homepage');
                         }
                       ),

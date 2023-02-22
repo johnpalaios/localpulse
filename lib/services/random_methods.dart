@@ -41,7 +41,19 @@ Future<void> showEventCreationDialog(BuildContext context){
     );
 }
 
-
+Future<void> showDialogWithText(BuildContext context, String titleText, String mainText){
+  return showDialog(
+    context: context, 
+    builder: (context){
+      return  AlertDialog(
+        title: Text(titleText),
+        actions: [
+           Text(mainText)        
+          ],
+      );
+    }
+    );
+}
 Future<LatLng> getAddress(value, context) async {
   try {
     var addresses = await Geocoder.local.findAddressesFromQuery(value);

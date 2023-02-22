@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:localpulse/screens/sign_up.dart';
 //import 'package:localpulse/edit_profile.dart';
 import 'package:flutter_geocoder/geocoder.dart';
+import 'package:localpulse/services/sqlite_service.dart';
 
 
 
@@ -46,6 +47,10 @@ class SignInWidget extends StatefulWidget{
 
 class _SignInWidgetState extends State<SignInWidget>{
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController emailFormController = TextEditingController();
+  TextEditingController passwordFormController = TextEditingController();
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -122,6 +127,20 @@ class _SignInWidgetState extends State<SignInWidget>{
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     TextFormField(
+                      controller: emailFormController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a valid email';
+                        } else {
+                          final bool emailValid = 
+                          RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value);
+                          if(!emailValid) {
+                            return 'Please enter a valid email';
+                          }
+                        }
+                        return null;
+                      },
                       style: const TextStyle(color: Colors.white70),
                       keyboardType: TextInputType.multiline,
                       maxLines: 1,
@@ -134,6 +153,20 @@ class _SignInWidgetState extends State<SignInWidget>{
                       )
                     ),
                     TextFormField(
+                      controller: passwordFormController,
+                      validator : (value) {
+                        RegExp regex =
+                            RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+                        if (value == null) {
+                          return 'Please enter password';
+                        } else {
+                          if (!regex.hasMatch(value)) {
+                            return 'Password Must contain Digit, Lowercase and Uppercase.';
+                          } else {
+                            return null;
+                          }
+                        }
+                      },
                       obscureText: true,
                       obscuringCharacter: '*',
                       style: const TextStyle(color: Colors.white70),
@@ -212,14 +245,22 @@ class _SignInWidgetState extends State<SignInWidget>{
                           ),
                           child: const Center(child: Text("Sign In", style: TextStyle(color:Color.fromARGB(200, 255, 255, 255), fontSize: 20, fontWeight: FontWeight.w800),)),
                         ),
-                        onPressed: ()async{
-                          final navigator = Navigator.of(context);
-                          await Future.delayed(Duration.zero);
-                          //save ta stoixeia eisodou  
-                          navigator.push(
-                            MaterialPageRoute(builder: (_) => const HomePage()),
-                          );
-                          //Navigator.of(context).pushNamed('/homepage');
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) { 
+                            var db = await SqliteService.initializeDB();
+                            var found = await SqliteService.isUserOnDb(db, emailFormController.text, passwordFormController.text, context);
+                            
+                            if(found == true) {
+                              print("TRUEEE!");
+                              final navigator = Navigator.of(context);
+                            await Future.delayed(Duration.zero);
+                            //save ta stoixeia eisodou  
+                            navigator.push(
+                              MaterialPageRoute(builder: (_) => const HomePage()),
+                            );
+                            }
+                          
+                          }//Navigator.of(context).pushNamed('/homepage');
                         }
                       ),
                     ),
@@ -253,13 +294,16 @@ class _SignInWidgetState extends State<SignInWidget>{
                               child: const Center(child: Text("Sign Up", style: TextStyle(color:Color.fromARGB(200, 255, 255, 255), fontSize: 20, fontWeight: FontWeight.w800),)),
                         ),
                         onPressed: ()async{
-                          final navigator = Navigator.of(context);
-                          await Future.delayed(Duration.zero);
-                          //save ta stoixeia eisodou  
-                          navigator.push(
-                            MaterialPageRoute(builder: (_) => const SignUpWidget()),
-                          );
-                          //Navigator.of(context).pushNamed('/homepage');
+                          
+                            final navigator = Navigator.of(context);
+                              await Future.delayed(Duration.zero);
+                              //save ta stoixeia eisodou  
+                              navigator.push(
+                                MaterialPageRoute(builder: (_) => const SignUpWidget()),
+                              );
+                            //Navigator.of(context).pushNamed('/homepage');
+                          
+                    
                         }
                       ),
                     ),
