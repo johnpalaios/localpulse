@@ -246,19 +246,23 @@ class _SignInWidgetState extends State<SignInWidget>{
                           child: const Center(child: Text("Sign In", style: TextStyle(color:Color.fromARGB(200, 255, 255, 255), fontSize: 20, fontWeight: FontWeight.w800),)),
                         ),
                         onPressed: () async {
+                          final navigator = Navigator.of(context);
                           if (_formKey.currentState!.validate()) { 
-                            var db = await SqliteService.initializeDB();
-                            var found = await SqliteService.isUserOnDb(db, emailFormController.text, passwordFormController.text, context);
-                            
-                            if(found == true) {
-                              print("TRUEEE!");
-                              final navigator = Navigator.of(context);
-                            await Future.delayed(Duration.zero);
-                            //save ta stoixeia eisodou  
                             navigator.push(
                               MaterialPageRoute(builder: (_) => const HomePage()),
                             );
-                            }
+                            // var db = await SqliteService.initializeDB();
+                            // var found = await SqliteService.isUserOnDb(db, emailFormController.text, passwordFormController.text, context);
+                            
+                            // if(found == true) {
+                            //   print("TRUEEE!");
+                           
+                            // await Future.delayed(Duration.zero);
+                            // //save ta stoixeia eisodou  
+                            // navigator.push(
+                            //   MaterialPageRoute(builder: (_) => const HomePage()),
+                            // );
+                            // }
                           
                           }//Navigator.of(context).pushNamed('/homepage');
                         }
