@@ -1,0 +1,10 @@
+{
+    "launch": {
+
+
+        "configurations": [],
+        "compounds": []
+    },
+    "cmake.configureOnOpen": true,
+    "cmake.sourceDirectory": "${workspaceFolder}/linux/flutter"
+}
